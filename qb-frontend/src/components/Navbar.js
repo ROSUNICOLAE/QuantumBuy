@@ -7,7 +7,7 @@ import {
     MDBNavbarNav,
     MDBNavbarItem,
     MDBNavbarLink,
-    MDBCollapse
+    MDBCollapse, MDBIcon
 } from 'mdb-react-ui-kit';
 
 function Navbar() {
@@ -49,3 +49,5 @@ function Navbar() {
         </MDBNavbar>
     );
 }
+
+export default Navbar;

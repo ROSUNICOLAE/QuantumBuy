@@ -10,7 +10,6 @@ import {
     MDBBtn,
     MDBCollapse
 } from 'mdb-react-ui-kit';
-import {NavbarBrandProps} from "mdb-react-ui-kit/dist/types/free/navigation/Navbar/NavbarBrand/types";
 
 function Header() {
     const [showBasic, setShowBasic] = useState(false);
@@ -18,7 +17,6 @@ function Header() {
     return (
 
         <header>
-            < Navbar />
             <MDBNavbar expand='lg' light bgColor='white' fixed>
                 <MDBContainer fluid>
                     <MDBNavbarToggler
@@ -56,7 +54,6 @@ function Header() {
                     Call to action
                 </MDBBtn>
             </div>
-
         </header>
     );
 }
