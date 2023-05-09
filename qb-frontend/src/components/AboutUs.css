@@ -1,0 +1,101 @@
+.about-us-page {
+  background-color: #0b0c10;
+  color: #fff;
+  padding: 100px 0;
+}
+
+.about-us-page h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.about-us-page h2 {
+  font-size: 2.5rem;
+  font-weight: 500;
+  margin-top: 80px;
+}
+
+.about-us-page p {
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 2;
+  margin-top: 40px;
+}
+
+.about-us-page ul.team-members {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin-top: 80px;
+}
+
+.about-us-page ul.team-members li {
+  background-color: #1f2833;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  margin: 20px;
+  padding: 20px;
+  text-align: center;
+  width: 300px;
+}
+
+.about-us-page ul.team-members li img {
+  border-radius: 50%;
+  height: 150px;
+  margin-bottom: 20px;
+  width: 150px;
+}
+
+.about-us-page ul.team-members li h3.name {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.about-us-page ul.team-members li p.position {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .about-us-page h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+
+  .about-us-page h2 {
+    font-size: 2rem;
+    margin-top: 60px;
+  }
+
+  .about-us-page p {
+    font-size: 1.2rem;
+    margin-top: 20px;
+  }
+
+  .about-us-page ul.team-members li {
+    margin: 10px;
+    padding: 10px;
+    width: 200px;
+  }
+
+  .about-us-page ul.team-members li img {
+    height: 100px;
+    margin-bottom: 10px;
+    width: 100px;
+  }
+
+  .about-us-page ul.team-members li h3.name {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+  }
+
+  .about-us-page ul.team-members li p.position {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import {Link, Route} from 'react-router-dom';
 import {
     MDBContainer,
     MDBNavbar,
@@ -11,6 +11,7 @@ import {
     MDBCollapse,
     MDBIcon
 } from 'mdb-react-ui-kit';
+import AboutUs from "./AboutUs";
 
 function Navbar() {
     const [showNav, setShowNav] = useState(false);
@@ -47,7 +48,7 @@ function Navbar() {
                         </MDBNavbarItem>
                         <MDBNavbarItem className='text-center p-4'>
                             <MDBNavbarLink>
-                                <Link to='/AboutUs'> About </Link>
+                                <Link to='/AboutUs'>About</Link>
                             </MDBNavbarLink>
                         </MDBNavbarItem>
                     </MDBNavbarNav>

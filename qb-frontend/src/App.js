@@ -5,6 +5,7 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import HomePage from "./components/HomePage";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import GoQuantum from "./components/GoQuantum";
+import AboutUs from "./components/AboutUs";
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
             <Routes>
                 <Route exact path="/" element={<HomePage />} />
                 <Route path="/GoQuantum" element={<GoQuantum />} />
+                <Route path="/AboutUs" element={<AboutUs />} />
             </Routes>
         </BrowserRouter>
     );

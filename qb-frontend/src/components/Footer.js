@@ -18,9 +18,8 @@ function Footer() {
                                 <a href='#!' className='text-reset'>
                                     Quantum Sell
                                 </a>
-                            </p>  
+                            </p>
                         </MDBCol>
-
                         <MDBCol md='3' lg='2' xl='2' className='mx-auto mb-4'>
                             <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
                             <p>
@@ -33,7 +32,6 @@ function Footer() {
                                     Orders
                                 </a>
                             </p>
-
                         </MDBCol>
                         <MDBCol md='4' lg='3' xl='3' className='mx-auto mb-md-0 mb-4'>
                             <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
@@ -49,7 +47,6 @@ function Footer() {
                     </MDBRow>
                 </MDBContainer>
             </section>
-
             <div className='text-center p-4' style={{backgroundColor: 'rgba(0, 0, 0, 0.05)'}}>
                 © 2021 Copyright:
                 <a className='text-reset fw-bold' href='https://mdbootstrap.com/'>
