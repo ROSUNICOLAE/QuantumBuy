@@ -1,4 +1,4 @@
-package com.QuantumBuy.QuantumBuy.repositoryies;
+package com.QuantumBuy.QuantumBuy.repositories;
 import com.QuantumBuy.QuantumBuy.Models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;

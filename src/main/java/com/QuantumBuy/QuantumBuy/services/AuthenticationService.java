@@ -1,12 +1,13 @@
 package com.QuantumBuy.QuantumBuy.services;
 
 import com.QuantumBuy.QuantumBuy.Models.User;
+import com.QuantumBuy.QuantumBuy.Models.UserRoleEnum;
 import com.QuantumBuy.QuantumBuy.auth.AuthenticationRequest;
 import com.QuantumBuy.QuantumBuy.auth.AuthenticationResponse;
 import com.QuantumBuy.QuantumBuy.auth.RegisterRequest;
 import com.QuantumBuy.QuantumBuy.config.JwtService;
-import com.QuantumBuy.QuantumBuy.repositoryies.TokenRepository;
-import com.QuantumBuy.QuantumBuy.repositoryies.UserRepository;
+import com.QuantumBuy.QuantumBuy.repositories.TokenRepository;
+import com.QuantumBuy.QuantumBuy.repositories.UserRepository;
 import com.QuantumBuy.QuantumBuy.token.Token;
 import com.QuantumBuy.QuantumBuy.token.TokenType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +36,7 @@ public class AuthenticationService {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .role(UserRoleEnum.valueOf(request.getRole().toString()))
                 .build();
         var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -78,7 +79,7 @@ public class AuthenticationService {
     }
 
     private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(Math.toIntExact(user.getId()));
+        var validUserTokens = tokenRepository.findAllValidTokenByUser(String.valueOf(user.getId()));
         if (validUserTokens.isEmpty())
             return;
         validUserTokens.forEach(token -> {

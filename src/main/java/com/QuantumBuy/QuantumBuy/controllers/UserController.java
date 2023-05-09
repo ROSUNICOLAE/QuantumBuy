@@ -1,24 +1,17 @@
 package com.QuantumBuy.QuantumBuy.controllers;
 
-
-
-
 import com.QuantumBuy.QuantumBuy.Models.User;
 import com.QuantumBuy.QuantumBuy.Models.UserRole;
-import com.QuantumBuy.QuantumBuy.repositoryies.UserRepository;
-
-import com.QuantumBuy.QuantumBuy.repositoryies.UserRoleRepository;
+import com.QuantumBuy.QuantumBuy.Models.UserRoleEnum;
+import com.QuantumBuy.QuantumBuy.repositories.UserRoleRepository;
 import com.QuantumBuy.QuantumBuy.services.UserService;
-import com.nimbusds.oauth2.sdk.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -52,17 +45,20 @@ public class UserController {
             return ResponseEntity.badRequest().body("A user with this email already exists");
         }
 
+        UserRoleEnum userRoleEnum = UserRoleEnum.valueOf(role.toUpperCase());
+        if (userRoleEnum == null) {
+            // Handle invalid role error
+        }
+
         User newUser = User.builder()
                 .firstname(firstname)
                 .lastname(lastname)
                 .email(email)
                 .password(passwordEncoder.encode(password))
-                .role(UserRole.valueOf(role))
+                .role(userRoleEnum)
                 .build();
         userService.addUser(newUser);
 
         return ResponseEntity.ok().body("User added successfully");
     }
-
-
 }

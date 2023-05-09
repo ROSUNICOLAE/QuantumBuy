@@ -2,7 +2,7 @@ package com.QuantumBuy.QuantumBuy.config;
 
 
 
-import com.QuantumBuy.QuantumBuy.repositoryies.TokenRepository;
+import com.QuantumBuy.QuantumBuy.repositories.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,10 +47,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         userEmail = jwtService.extractUsername(jwt);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            var isTokenValid = tokenRepository.findByToken(jwt)
-                    .map(t -> !t.isExpired() && !t.isRevoked())
-                    .orElse(false);
-            if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
+            var token = tokenRepository.findByToken(jwt)
+                    .stream()
+                    .findFirst()
+                    .orElse(null);
+            if (jwtService.isTokenValid(jwt, userDetails) && token != null && !token.isExpired() && !token.isRevoked()) {
+
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

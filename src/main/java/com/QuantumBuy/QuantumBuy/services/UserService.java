@@ -1,7 +1,7 @@
 package com.QuantumBuy.QuantumBuy.services;
 
 import com.QuantumBuy.QuantumBuy.Models.User;
-import com.QuantumBuy.QuantumBuy.repositoryies.UserRepository;
+import com.QuantumBuy.QuantumBuy.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,4 +25,3 @@ public class UserService {
         return findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User with username %s not found", username)));
     }
 }
-
