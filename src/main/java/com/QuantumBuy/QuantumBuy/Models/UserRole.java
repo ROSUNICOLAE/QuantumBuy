@@ -1,7 +1,6 @@
 package com.QuantumBuy.QuantumBuy.Models;
 
-public enum Role {
-
+public enum UserRole {
     BUYER,
-    SELLER
+    SELLER,
 }

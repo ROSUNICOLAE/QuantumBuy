@@ -24,10 +24,18 @@ public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-    private final LogoutHandler logoutHandler;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public LogoutHandler logoutHandler() {
+        return (request, response, authentication) -> {
+            // Add your logout functionality here
+            // For example, invalidate the authentication token and clear the security context
+            SecurityContextHolder.clearContext();
+        };
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, LogoutHandler logoutHandler) throws Exception {
         http
                 .csrf()
                 .disable()

@@ -1,6 +1,6 @@
 package com.QuantumBuy.QuantumBuy.auth;
 
-import com.QuantumBuy.QuantumBuy.Models.Role;
+import com.QuantumBuy.QuantumBuy.Models.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +16,5 @@ public class RegisterRequest {
     private String lastname;
     private String email;
     private String password;
-    private Role role;
+    private UserRole role;
 }
