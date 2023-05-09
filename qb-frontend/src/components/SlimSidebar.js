@@ -3,7 +3,7 @@ import { MDBBtn, MDBIcon } from 'mdb-react-ui-kit';
 
 function SlimSidebar() {
     return (
-        <div className="position-fixed top-50 end-0 translate-middle-y p-3" style={{ zIndex: 999 }}>
+        <div className="position-fixed top-50 end-0 translate-middle-y p-3" style={{ zIndex: 999, position: 'fixed' }}>
             <div className="bg-light p-3 rounded d-flex flex-column align-items-center">
                 <div className="text-center mb-3">
                     <p>Logged in as John Doe</p>
@@ -14,6 +14,7 @@ function SlimSidebar() {
                 {/* Add additional buttons or links for user features here */}
             </div>
         </div>
+
     );
 }
 

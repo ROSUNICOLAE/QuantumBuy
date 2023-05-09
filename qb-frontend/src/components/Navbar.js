@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
     MDBContainer,
     MDBNavbar,
@@ -7,7 +8,8 @@ import {
     MDBNavbarNav,
     MDBNavbarItem,
     MDBNavbarLink,
-    MDBCollapse, MDBIcon
+    MDBCollapse,
+    MDBIcon
 } from 'mdb-react-ui-kit';
 
 function Navbar() {
@@ -16,7 +18,12 @@ function Navbar() {
     return (
         <MDBNavbar expand='lg' light bgColor='light'>
             <MDBContainer fluid>
-                <MDBNavbarBrand href='#'>Navbar</MDBNavbarBrand>
+                <MDBNavbarBrand>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <img src={require('./pictures/QuantumLogo.jpg')} alt='Quantum Logo' className='img-fluid' style={{ maxWidth: '100%', maxHeight: '70px' }} />
+                        <span style={{ marginLeft: '10px', fontWeight: 'bold' }}>Quantum</span>
+                    </div>
+                </MDBNavbarBrand>
                 <MDBNavbarToggler
                     type='button'
                     aria-expanded='false'
@@ -26,21 +33,21 @@ function Navbar() {
                     <MDBIcon icon='bars' fas />
                 </MDBNavbarToggler>
                 <MDBCollapse navbar show={showNav}>
-                    <MDBNavbarNav>
-                        <MDBNavbarItem>
-                            <MDBNavbarLink active aria-current='page' href='#'>
-                                Home
+                    <MDBNavbarNav className='justify-content-center'>
+                        <MDBNavbarItem className='text-center p-4'>
+                            <MDBNavbarLink>
+                                <Link to='/'>Home</Link>
                             </MDBNavbarLink>
                         </MDBNavbarItem>
-                        <MDBNavbarItem>
+                        <MDBNavbarItem className='text-center p-4'>
                             <MDBNavbarLink href='#'>Features</MDBNavbarLink>
                         </MDBNavbarItem>
-                        <MDBNavbarItem>
+                        <MDBNavbarItem className='text-center p-4'>
                             <MDBNavbarLink href='#'>Pricing</MDBNavbarLink>
                         </MDBNavbarItem>
-                        <MDBNavbarItem>
-                            <MDBNavbarLink disabled href='#' tabIndex={-1} aria-disabled='true'>
-                                Disabled
+                        <MDBNavbarItem className='text-center p-4'>
+                            <MDBNavbarLink>
+                                <Link to='/AboutUs'> About </Link>
                             </MDBNavbarLink>
                         </MDBNavbarItem>
                     </MDBNavbarNav>
