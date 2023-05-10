@@ -1,10 +1,9 @@
 package com.QuantumBuy.QuantumBuy.controllers;
 
 import com.QuantumBuy.QuantumBuy.Models.User;
-import com.QuantumBuy.QuantumBuy.Models.UserRole;
 import com.QuantumBuy.QuantumBuy.Models.UserRoleEnum;
-import com.QuantumBuy.QuantumBuy.repositories.UserRoleRepository;
 import com.QuantumBuy.QuantumBuy.services.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/Users")
 public class UserController {
 
@@ -33,13 +32,13 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addUser(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<String> addUser(@RequestBody Map<String, Object> payload, HttpServletResponse response) {
         String firstname = (String) payload.get("firstname");
         String lastname = (String) payload.get("lastname");
         String email = (String) payload.get("email");
         String password = (String) payload.get("password");
         String role = (String) payload.get("role");
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         User existingUser = userService.validateAndGetUserByUsername(email);
         if (existingUser != null) {
             return ResponseEntity.badRequest().body("A user with this email already exists");

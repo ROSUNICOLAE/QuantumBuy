@@ -16,53 +16,70 @@ function SignUp({ closeModal }) {
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [scrollableModal, setScrollableModal] = useState(true);
+    const [role, setRole] = useState('');
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await fetch('http://localhost:8080/Users/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ firstname, lastname, email, password })
+            body: JSON.stringify({ firstname, lastname, email, password, role })
         });
         console.log(response);
-        closeModal();
+        setShowSuccessMessage(true);
+        setTimeout(() => {
+            setShowSuccessMessage(false);
+            closeModal();
+        }, 2000);
     };
 
     return (
-        <MDBModal show={scrollableModal} setShow={setScrollableModal} tabIndex='-1'>
-            <MDBModalDialog scrollable>
+        <MDBModal show={true} tabIndex='-1'>
+            <MDBModalDialog>
                 <MDBModalContent>
                     <MDBModalHeader>
-                        <MDBModalTitle>Modal title</MDBModalTitle>
+                        <MDBModalTitle>Create Account</MDBModalTitle>
                         <MDBBtn
                             className='btn-close'
                             color='none'
                             onClick={() => {
-                                setScrollableModal(false);
                                 closeModal();
                             }}
                         ></MDBBtn>
                     </MDBModalHeader>
                     <MDBModalBody>
+                        {showSuccessMessage && (
+                            <div className='alert alert-success' role='alert'>
+                                Account created successfully!
+                            </div>
+                        )}
                         <form onSubmit={handleSubmit}>
                             <MDBInput label='First Name' id='firstname' type='text' value={firstname} onChange={e => setFirstname(e.target.value)} />
                             <MDBInput label='Last Name' id='lastname' type='text' value={lastname} onChange={e => setLastname(e.target.value)} />
                             <MDBInput label='Email' id='email' type='email' value={email} onChange={e => setEmail(e.target.value)} />
                             <MDBInput label='Password' id='password' type='password' value={password} onChange={e => setPassword(e.target.value)} />
-                            <MDBBtn MDBBtn outline rounded className='mx-2' color='dark' type="submit">
+                            <div className='my-3'>
+                                <label htmlFor='role' className='form-label'>
+                                    Role
+                                </label>
+                                <select className='form-select' id='role' value={role} onChange={e => setRole(e.target.value)}>
+                                    <option value=''>Select role...</option>
+                                    <option value='BUYER'>Buyer</option>
+                                    <option value='SELLER'>Seller</option>
+                                </select>
+                            </div>
+                            <MDBBtn outline rounded className='mx-2' color='dark' type='submit' disabled={!role}>
                                 Create Account
                             </MDBBtn>
                         </form>
                     </MDBModalBody>
                     <MDBModalFooter>
                         <MDBBtn color='secondary' onClick={() => {
-                            setScrollableModal(false);
                             closeModal();
                         }}>
                             Close
                         </MDBBtn>
-                        <MDBBtn>Save changes</MDBBtn>
                     </MDBModalFooter>
                 </MDBModalContent>
             </MDBModalDialog>
