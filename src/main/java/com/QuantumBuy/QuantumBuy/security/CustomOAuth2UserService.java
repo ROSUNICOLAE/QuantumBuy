@@ -28,25 +28,23 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        // load user details from the OAuth2 provider
         DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
-        String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
-                .getUserInfoEndpoint().getUserNameAttributeName();
-
+        // create a custom OAuth2 user object
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(oAuth2User.getAuthorities(),
                 oAuth2User.getAttributes(), "name");
 
+        // load user details from the database using the email address
+        UserDetails userDetails = userDetailsService.loadUserByUsername(customOAuth2User.getEmail());
 
-        if (registrationId.equalsIgnoreCase("google")) {
-            UserDetails userDetails = new User(customOAuth2User.getEmail(), "",
-                    Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
-
-            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
+        // authenticate the user
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "",
+                userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return customOAuth2User;
     }
 }
+
