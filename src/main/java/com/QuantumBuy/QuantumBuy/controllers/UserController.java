@@ -70,9 +70,9 @@ public class UserController {
     @PostMapping("/oauth2/google")
     public ResponseEntity<String> handleGoogleOAuth2Callback(HttpServletRequest request, @RequestParam("code") String authorizationCode) throws IOException {
         // Exchange the authorization code for an access token and refresh token
-        String redirectUri = "http://localhost:3000/api/oauth2/google";
-        String clientId = "93882205022-tvclhr0t1e1ricnatjub6adtn28ad8u5.apps.googleusercontent.com";
-        String clientSecret = "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";
+        String redirectUri = "http://localhost:3000/login/oauth2/code/google";
+        String clientId = "811351883342-964gr86jb6rq6pl51ctjf6ds8v9ci1s5.apps.googleusercontent.com";
+        String clientSecret = "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";
         String tokenUrl = "https://oauth2.googleapis.com/token";
 
         HttpPost httpPost = new HttpPost(tokenUrl);

@@ -7,6 +7,8 @@ import GoQuantum from "./components/GoQuantum";
 import AboutUs from "./components/AboutUs";
 import SignUp from "./components/SignUp";
 import Callback from "./components/Callback";
+import Buy from "./components/Buy";
+import Sell from "./components/Sell";
 
 function App() {
     return (
@@ -17,6 +19,8 @@ function App() {
                 <Route path="/AboutUs" element={<AboutUs />} />
                 <Route path="/SignUp" element={<SignUp />} />
                 <Route path="/users/oauth2/callback/google" element={<Callback />} />
+                <Route path="/Buy" element={<Buy />} />
+                <Route path="/Sell" element={<Sell />} />
             </Routes>
         </BrowserRouter>
     );

@@ -7,9 +7,8 @@ function SlimSidebar() {
     const [user, setUser] = useState(null);
 
     const openModal = () => {
-        const serverUrl = 'http://localhost:3000';
-        const redirectUrl = `http://localhost:3000/users/oauth2/callback/google`;
-        const clientId = '93882205022-tvclhr0t1e1ricnatjub6adtn28ad8u5.apps.googleusercontent.com';
+        const redirectUrl = `http://localhost:3000/login/oauth2/code/google`;
+        const clientId = '811351883342-964gr86jb6rq6pl51ctjf6ds8v9ci1s5.apps.googleusercontent.com';
         const authUrl = `https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=${clientId}&redirect_uri=${redirectUrl}&scope=email%20profile`;
         window.location = authUrl;
     };

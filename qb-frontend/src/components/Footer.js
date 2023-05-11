@@ -1,5 +1,8 @@
 import React from 'react';
 import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import { FaHome, FaEnvelope } from 'react-icons/fa';
+
 
 function Footer() {
     return (
@@ -24,23 +27,23 @@ function Footer() {
                             <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
                             <p>
                                 <a href='#!' className='text-reset'>
-                                    Settings
+                                    Latest sellers
                                 </a>
                             </p>
                             <p>
                                 <a href='#!' className='text-reset'>
-                                    Orders
+                                    Latest buyers
                                 </a>
                             </p>
                         </MDBCol>
                         <MDBCol md='4' lg='3' xl='3' className='mx-auto mb-md-0 mb-4'>
                             <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
                             <p>
-                                <MDBIcon color='secondary' icon='home' className='me-2'/>
-                                New York, NY 10012, US
+                                <FaHome color='secondary' icon='home' className='me-2'/>
+                                Bucharest, 000000, Romania
                             </p>
                             <p>
-                                <MDBIcon color='secondary' icon='envelope' className='me-3'/>
+                                <FaEnvelope color='secondary' icon='envelope' className='me-3'/>
                                 info@example.com
                             </p>
                         </MDBCol>
@@ -48,9 +51,9 @@ function Footer() {
                 </MDBContainer>
             </section>
             <div className='text-center p-4' style={{backgroundColor: 'rgba(0, 0, 0, 0.05)'}}>
-                © 2021 Copyright:
+                © 2023 Copyright:
                 <a className='text-reset fw-bold' href='https://mdbootstrap.com/'>
-                    MDBootstrap.com
+                    CodeCool Web App
                 </a>
             </div>
         </MDBFooter>

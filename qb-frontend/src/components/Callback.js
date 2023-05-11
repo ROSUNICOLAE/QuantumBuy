@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 function Callback() {
-    const history = useNavigate();
+    const navigate = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
@@ -18,18 +18,18 @@ function Callback() {
             },
             body: JSON.stringify({ code }),
         })
-            .then(response => response.json())
-            .then(data => {
-                // set the access token in local storage
-                localStorage.setItem('accessToken', data.accessToken);
-
-                // redirect the user to the dashboard page
-                history.push('/');
+            .then(response => {
+                // Redirect the user to the specified URL after successful authentication
+                if (response.ok) {
+                    navigate('/');
+                } else {
+                    console.error('Error:', response);
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
             });
-    }, [history, location.search]);
+    }, [navigate, location.search]);
 
     return (
         <div>
