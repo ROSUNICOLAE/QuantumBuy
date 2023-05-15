@@ -9,16 +9,24 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-
 @Configuration
 public class CorsConfig {
+
+    @Value("${cors.allowedOrigins}")
+    private String allowedOrigins;
+
     @Bean
-    public CorsFilter corsFilter(@Value("http://localhost:3000/") List<String> allowedOrigins) {
+    public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(allowedOrigins);
+
+        if (allowedOrigins.equals("*")) {
+            config.setAllowedOriginPatterns(Collections.singletonList("*"));
+        } else {
+            config.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
+        }
+
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
         config.setExposedHeaders(Collections.singletonList("Authorization"));
@@ -26,3 +34,5 @@ public class CorsConfig {
         return new CorsFilter(source);
     }
 }
+
+

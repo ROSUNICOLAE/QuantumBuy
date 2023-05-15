@@ -1,7 +1,9 @@
 package com.QuantumBuy.QuantumBuy.controllers.Request;
 
-import java.util.Set;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.util.Set;
+@JsonDeserialize(using = SignupRequestDeserializer.class)
 public class SignupRequest {
 
     private String password;
@@ -9,11 +11,13 @@ public class SignupRequest {
     private String email;
     private Set<String> role;
 
+    public SignupRequest() {
+    }
 
-    public SignupRequest(String name, String username, String email, Set<String> role) {
-        this.password = password;
+    public SignupRequest(String username, String email, String password, Set<String> role) {
         this.username = username;
         this.email = email;
+        this.password = password;
         this.role = role;
     }
 
