@@ -18,7 +18,7 @@ public class UserService {
     public User addUser(User user){return userRepository.save(user);}
 
     public Optional<User> findByUsername(String username) {
-        return userRepository.findByEmail(username);
+        return userRepository.findByUsername(username);
     }
 
     public User validateAndGetUserByUsername(String username) {

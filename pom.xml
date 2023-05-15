@@ -39,6 +39,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>8.0.0.Final</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
@@ -103,8 +109,6 @@
 			<version>${spring-security.version}</version>
 		</dependency>
 
-
-
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-impl</artifactId>
@@ -149,8 +153,6 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>5.3.14</version>
 		</dependency>
-
-
 
 		<dependency>
 			<groupId>jakarta.servlet</groupId>
