@@ -9,6 +9,7 @@ import SignUp from "./components/SignUp";
 import Callback from "./components/Callback";
 import Buy from "./components/Buy";
 import Sell from "./components/Sell";
+import SignIn from "./components/SignIn";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/GoQuantum" element={<GoQuantum />} />
                 <Route path="/AboutUs" element={<AboutUs />} />
                 <Route path="/SignUp" element={<SignUp />} />
+                <Route path="/SignIn" element={<SignIn />} />
                 <Route path="/users/oauth2/callback/google" element={<Callback />} />
                 <Route path="/Buy" element={<Buy />} />
                 <Route path="/Sell" element={<Sell />} />

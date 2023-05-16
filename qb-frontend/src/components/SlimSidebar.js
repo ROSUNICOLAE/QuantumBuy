@@ -1,23 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import SignUp from './SignUp';
+import SignIn from './SignIn';
 import {
     MDBBtn
 } from 'mdb-react-ui-kit';
 
 function SlimSidebar() {
-    const [showModal, setShowModal] = useState(false);
+    const [showSignUpModal, setShowSignUpModal] = useState(false);
+    const [showSignInModal, setShowSignInModal] = useState(false);
     const [user, setUser] = useState(null);
 
-    const openModal = () => {
-        setShowModal(true);
+    const openSignUpModal = () => {
+        setShowSignUpModal(true);
     };
 
-    const closeModal = () => {
-        setShowModal(false);
+    const closeSignUpModal = () => {
+        setShowSignUpModal(false);
+    };
+
+    const openSignInModal = () => {
+        setShowSignInModal(true);
+    };
+
+    const closeSignInModal = () => {
+        setShowSignInModal(false);
     };
 
     const handleLogout = () => {
-        // Clear the access token from local storage and reload the page to log the user out
         localStorage.removeItem('accessToken');
         window.location.reload();
     };
@@ -55,16 +64,19 @@ function SlimSidebar() {
                             <p>Logged in as {user ? user.username : ''}</p>
                         </div>
                     )}
-                    <MDBBtn className="w-100 mb-3 btn-sm" onClick={openModal}>
+                    <MDBBtn className="w-100 mb-3 btn-sm" onClick={openSignUpModal}>
                         Sign up
                     </MDBBtn>
-                    <MDBBtn className="w-100 mb-3 btn-sm">Log in</MDBBtn>
+                    <MDBBtn className="w-100 mb-3 btn-sm" onClick={openSignInModal}>
+                        Log in
+                    </MDBBtn>
                     <MDBBtn className="w-100 btn-sm" color="danger" onClick={handleLogout}>
                         Log out
                     </MDBBtn>
                 </div>
             </div>
-            {showModal && <SignUp closeModal={closeModal} />}
+            {showSignUpModal && <SignUp closeModal={closeSignUpModal} />}
+            {showSignInModal && <SignIn closeModal={closeSignInModal} />}
         </>
     );
 }
