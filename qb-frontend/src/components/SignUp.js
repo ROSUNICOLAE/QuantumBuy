@@ -35,7 +35,7 @@ function SignUp({ closeModal }) {
                     username,
                     email,
                     password,
-                    role,
+                    role: role, // <-- Convert Set to an array
                 }),
                 mode: 'cors', // Add this line to enable CORS
             });
@@ -55,13 +55,6 @@ function SignUp({ closeModal }) {
                 <MDBModalContent>
                     <MDBModalHeader>
                         <MDBModalTitle>Create Account</MDBModalTitle>
-                        <MDBBtn
-                            className='btn-close'
-                            color='none'
-                            onClick={() => {
-                                closeModal();
-                            }}
-                        ></MDBBtn>
                     </MDBModalHeader>
                     <MDBModalBody>
                         {showSuccessMessage && (
@@ -77,6 +70,7 @@ function SignUp({ closeModal }) {
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                             />
+                            <br />
                             <MDBInput
                                 label='Email'
                                 id='email'
@@ -84,6 +78,7 @@ function SignUp({ closeModal }) {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
+                            <br />
                             <MDBInput
                                 label='Password'
                                 id='password'
@@ -91,6 +86,7 @@ function SignUp({ closeModal }) {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
+                            <br />
                             <MDBInput
                                 label='Confirm Password'
                                 id='confirmPassword'
@@ -98,12 +94,14 @@ function SignUp({ closeModal }) {
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
+                            <br />
                             <label htmlFor='role'>Select Role:</label>
+                            <br />
                             <select id='role' value={role} onChange={(e) => setRole(e.target.value)}>
-                                <option value='buyer'>Buyer</option>
-                                <option value='seller'>Seller</option>
-                                <option value='admin'>Admin</option>
+                                <option value='BUYER'>BUYER</option>
+                                <option value='SELLER'>SELLER</option>
                             </select>
+                            <br />
                             <MDBBtn outline rounded className='mx-2' color='dark' type='submit'>
                                 Create Account
                             </MDBBtn>
