@@ -8,66 +8,120 @@ import {
     MDBModalTitle,
     MDBModalBody,
     MDBModalFooter,
-    MDBInput
+    MDBInput,
 } from 'mdb-react-ui-kit';
 
 function SignUp({ closeModal }) {
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [scrollableModal, setScrollableModal] = useState(true);
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [role, setRole] = useState('buyer'); // <-- Add role state
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch('http://localhost:8080/Users/add', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ firstname, lastname, email, password })
-        });
-        console.log(response);
-        closeModal();
+        if (password !== confirmPassword) {
+            console.error('Error: Passwords do not match');
+            return;
+        }
+        try {
+            const response = await fetch('http://localhost:8080/api/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password,
+                    role,
+                }),
+                mode: 'cors', // Add this line to enable CORS
+            });
+            console.log(response);
+            setShowSuccessMessage(true);
+            setTimeout(() => {
+                setShowSuccessMessage(false);
+                closeModal();
+            }, 2000);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
-
     return (
-        <MDBModal show={scrollableModal} setShow={setScrollableModal} tabIndex='-1'>
-            <MDBModalDialog scrollable>
+        <MDBModal show={true} tabIndex='-1'>
+            <MDBModalDialog>
                 <MDBModalContent>
                     <MDBModalHeader>
-                        <MDBModalTitle>Modal title</MDBModalTitle>
+                        <MDBModalTitle>Create Account</MDBModalTitle>
                         <MDBBtn
                             className='btn-close'
                             color='none'
                             onClick={() => {
-                                setScrollableModal(false);
                                 closeModal();
                             }}
                         ></MDBBtn>
                     </MDBModalHeader>
                     <MDBModalBody>
+                        {showSuccessMessage && (
+                            <div className='alert alert-success' role='alert'>
+                                Account created successfully!
+                            </div>
+                        )}
                         <form onSubmit={handleSubmit}>
-                            <MDBInput label='First Name' id='firstname' type='text' value={firstname} onChange={e => setFirstname(e.target.value)} />
-                            <MDBInput label='Last Name' id='lastname' type='text' value={lastname} onChange={e => setLastname(e.target.value)} />
-                            <MDBInput label='Email' id='email' type='email' value={email} onChange={e => setEmail(e.target.value)} />
-                            <MDBInput label='Password' id='password' type='password' value={password} onChange={e => setPassword(e.target.value)} />
-                            <MDBBtn MDBBtn outline rounded className='mx-2' color='dark' type="submit">
+                            <MDBInput
+                                label='Username'
+                                id='username'
+                                type='text'
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                            <MDBInput
+                                label='Email'
+                                id='email'
+                                type='email'
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <MDBInput
+                                label='Password'
+                                id='password'
+                                type='password'
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <MDBInput
+                                label='Confirm Password'
+                                id='confirmPassword'
+                                type='password'
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                            <label htmlFor='role'>Select Role:</label>
+                            <select id='role' value={role} onChange={(e) => setRole(e.target.value)}>
+                                <option value='buyer'>Buyer</option>
+                                <option value='seller'>Seller</option>
+                                <option value='admin'>Admin</option>
+                            </select>
+                            <MDBBtn outline rounded className='mx-2' color='dark' type='submit'>
                                 Create Account
                             </MDBBtn>
                         </form>
                     </MDBModalBody>
                     <MDBModalFooter>
-                        <MDBBtn color='secondary' onClick={() => {
-                            setScrollableModal(false);
-                            closeModal();
-                        }}>
+                        <MDBBtn
+                            color='secondary'
+                            onClick={() => {
+                                closeModal();
+                            }}
+                        >
                             Close
                         </MDBBtn>
-                        <MDBBtn>Save changes</MDBBtn>
                     </MDBModalFooter>
                 </MDBModalContent>
             </MDBModalDialog>
         </MDBModal>
     );
 }
-
 export default SignUp;
