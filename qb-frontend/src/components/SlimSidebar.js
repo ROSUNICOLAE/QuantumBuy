@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SignUp from './SignUp';
 import {
-    MDBBtn,
-    MDBIcon
+    MDBBtn
 } from 'mdb-react-ui-kit';
 
 function SlimSidebar() {
