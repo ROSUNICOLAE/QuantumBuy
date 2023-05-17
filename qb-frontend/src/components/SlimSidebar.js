@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
 import { MDBBtn } from 'mdb-react-ui-kit';
+import jwt_decode from 'jwt-decode';
 
 function SlimSidebar() {
     const [showSignUpModal, setShowSignUpModal] = useState(false);
@@ -25,40 +26,32 @@ function SlimSidebar() {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('accessToken');
-        window.location.reload();
+        localStorage.removeItem('token');
+        setUser(null);
     };
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            const accessToken = localStorage.getItem('accessToken');
-            if (!accessToken) {
-                setUser(null);
-                return;
-            }
+        const token = localStorage.getItem('token');
+        console.log('Token:', token);
+        if (token) {
             try {
-                const response = await fetch('http://localhost:8080/api/auth/user', {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`
-                    }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setUser(data);
-                } else {
-                    console.error('Error:', response.status, response.statusText);
-                    setUser(null);
-                }
+                const decodedToken = jwt_decode(token);
+                console.log('Decoded Token:', decodedToken);
+                setUser(decodedToken.sub);
             } catch (error) {
-                console.error('Error:', error);
-                setUser(null);
+                console.error('Error decoding token:', error);
             }
-        };
-
-        fetchUserData();
+        } else {
+            setUser(null);
+        }
     }, []);
 
-    console.log('User:', user); // Debug statement to check the user state
+    const handleLogin = (token) => {
+        localStorage.setItem('token', token);
+        const decodedToken = jwt_decode(token);
+        setUser(decodedToken.sub);
+        window.location.reload(); // Reload the page after logging in
+    };
 
     return (
         <>
@@ -66,9 +59,12 @@ function SlimSidebar() {
                 <div className="bg-light p-3 rounded d-flex flex-column align-items-center">
                     {user ? (
                         <div className="text-center mb-3">
-                            <p>Welcome!</p>
-                            <p>You are logged in as {user.username}</p>
-                            <a href="/user-page">User Page</a>
+                            <p>Welcome to Quantum</p>
+                            <p>You are logged in as </p>
+                            <p>
+                                <strong>{user}</strong>
+                            </p>
+                            <a href="/user-page">{user} Page</a>
                             <MDBBtn className="w-100 btn-sm" color="danger" onClick={handleLogout}>
                                 Log out
                             </MDBBtn>
@@ -83,13 +79,11 @@ function SlimSidebar() {
                             </MDBBtn>
                         </div>
                     )}
-                    {!user && (
-                        <p>You are not signed in.</p>
-                    )}
+                    {!user && <p>You are not signed in.</p>}
                 </div>
             </div>
             {showSignUpModal && <SignUp closeModal={closeSignUpModal} />}
-            {showSignInModal && <SignIn closeModal={closeSignInModal} />}
+            {showSignInModal && <SignIn closeModal={closeSignInModal} handleLogin={handleLogin} />}
         </>
     );
 }

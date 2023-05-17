@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     MDBBtn,
     MDBModal,
@@ -10,21 +10,22 @@ import {
     MDBModalFooter,
     MDBInput,
 } from 'mdb-react-ui-kit';
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode';
 
-function SignIn({ closeModal }) {
+function SignIn({ closeModal, handleLogin }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [token, setToken] = useState(localStorage.getItem("token"));
-
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem('token');
         if (token) {
-            const decodedToken = jwt_decode(token);
-            console.log(decodedToken);
-            setUsername(decodedToken.sub);
+            try {
+                const decodedToken = jwt_decode(token);
+                setUsername(decodedToken.sub);
+            } catch (error) {
+                console.error('Error decoding token:', error);
+            }
         }
     }, []);
 
@@ -35,24 +36,22 @@ function SignIn({ closeModal }) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json', // Add this line
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify({
                     username,
                     password,
                 }),
-                mode: 'cors', // Add this line to enable CORS
+                mode: 'cors',
             });
 
             if (response.ok) {
                 // Sign-in successful
-                // You can handle the success response here
-                localStorage.setItem("token", response.headers.get("Authorization"));
-                setToken(response.headers.get("Authorization"));
+                const token = response.headers.get('Authorization'); // Retrieve the token from headers
+                handleLogin(token); // Pass the token back to the parent component
                 closeModal();
             } else {
                 // Sign-in failed
-                // You can handle the error response here
                 const data = await response.json();
                 setErrorMessage(data.message);
             }

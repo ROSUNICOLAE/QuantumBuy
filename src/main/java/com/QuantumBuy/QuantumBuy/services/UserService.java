@@ -15,6 +15,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public List<User> getUsers(){return userRepository.findAll();}
     @Transactional
     public User addUser(User user) {
@@ -30,5 +35,17 @@ public class UserService {
     public User validateAndGetUserByUsername(String username) {
         return findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with username %s not found", username)));
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<User> verifyUser(String email, String role) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (user.getRole().equals(role)) {
+                return userOptional; // User exists with the correct role
+            }
+        }
+        return Optional.empty(); // User does not exist or has incorrect role
     }
 }
