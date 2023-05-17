@@ -1,5 +1,5 @@
 package com.QuantumBuy.QuantumBuy.repositories;
-import com.QuantumBuy.QuantumBuy.Models.User;
+import com.QuantumBuy.QuantumBuy.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

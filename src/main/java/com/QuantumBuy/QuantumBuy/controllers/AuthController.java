@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.QuantumBuy.QuantumBuy.Models.ERole;
+import com.QuantumBuy.QuantumBuy.models.ERole;
 
-import com.QuantumBuy.QuantumBuy.Models.User;
+import com.QuantumBuy.QuantumBuy.models.User;
 import com.QuantumBuy.QuantumBuy.controllers.Request.ApiResponse;
 import com.QuantumBuy.QuantumBuy.controllers.Request.JwtResponse;
 import com.QuantumBuy.QuantumBuy.controllers.Request.LoginRequest;
@@ -18,23 +18,18 @@ import com.QuantumBuy.QuantumBuy.security.JwtUtils;
 import com.QuantumBuy.QuantumBuy.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-
-
-
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -99,5 +94,19 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new ApiResponse("User registered successfully!"));
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userRepository.findById(userDetails.getId()).orElse(null);
+
+        if (user == null) {
+            ApiResponse response = new ApiResponse("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        User users = userRepository.findById(userDetails.getId()).orElse(null);
+        System.out.println("Retrieved user: " + users); // Add this log statement
+
+        return ResponseEntity.ok(user);
     }
 }

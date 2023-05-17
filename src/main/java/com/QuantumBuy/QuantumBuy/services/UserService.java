@@ -1,6 +1,6 @@
 package com.QuantumBuy.QuantumBuy.services;
 
-import com.QuantumBuy.QuantumBuy.Models.User;
+import com.QuantumBuy.QuantumBuy.models.User;
 import com.QuantumBuy.QuantumBuy.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

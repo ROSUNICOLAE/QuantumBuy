@@ -32,10 +32,48 @@ function Buy() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        // You can access form input values using the event.target elements
+
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('productName', e.target.elements.productName.value);
+        formData.append('price', parseFloat(e.target.elements.price.value));
+        formData.append('quantity', parseInt(e.target.elements.quantity.value));
+        formData.append('vendorName', e.target.elements.vendorName.value);
+        formData.append('productDescription', e.target.elements.productDescription.value);
+        formData.append('name', e.target.elements.name.value);
+        formData.append('email', e.target.elements.email.value);
+        formData.append('image', selectedImage);
+        formData.append('documentation', selectedDocumentation);
+        formData.append('additionalNotes', e.target.elements.additionalNotes.value);
+
+        try {
+            // Send form data to the backend API
+            const response = await fetch('http://localhost:8080/api/buyproducts/create', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                // Form submission successful
+                // Reset form and show success message
+                e.target.reset();
+                setSelectedImage(null);
+                setSelectedDocumentation(null);
+                setFileErrorMessage('');
+                setShowInfoPopup(false);
+                alert('Buy request submitted successfully!');
+            } else {
+                // Form submission failed
+                // Show error message
+                alert('Failed to submit buy request. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error submitting buy request:', error);
+            // Show error message
+            alert('An error occurred while submitting the buy request. Please try again.');
+        }
     };
 
     return (
@@ -53,15 +91,15 @@ function Buy() {
                         <MDBCard>
                             <MDBCardBody>
                                 <MDBCardText>Product Information</MDBCardText>
-                                <MDBInput type="text" label="Product Name" required className="mb-3" />
-                                <MDBInput type="number" label="Price" required className="mb-3" />
-                                <MDBInput type="number" label="Quantity" required className="mb-3" />
-                                <MDBInput type="text" label="Vendor Name" required className="mb-3" />
-                                <MDBInput type="textarea" label="Product Description" required className="mb-3" />
+                                <MDBInput type="text" label="Product Name" name="productName" required className="mb-3" />
+                                <MDBInput type="number" label="Price" name="price" required className="mb-3" />
+                                <MDBInput type="number" label="Quantity" name="quantity" required className="mb-3" />
+                                <MDBInput type="text" label="Vendor Name" name="vendorName" required className="mb-3" />
+                                <MDBInput type="textarea" label="Product Description" name="productDescription" required className="mb-3" />
 
                                 <MDBCardText>Contact Information</MDBCardText>
-                                <MDBInput type="text" label="Name" required className="mb-3" />
-                                <MDBInput type="email" label="Email" required className="mb-3" />
+                                <MDBInput type="text" label="Name" name="name" required className="mb-3" />
+                                <MDBInput type="email" label="Email" name="email" required className="mb-3" />
 
                                 <MDBCardText>Upload Image</MDBCardText>
                                 <div className="input-group mb-3">
@@ -96,7 +134,7 @@ function Buy() {
                                 )}
 
                                 <MDBCardText>Additional Information</MDBCardText>
-                                <MDBInput type="textarea" label="Additional Notes" required className="mb-3" />
+                                <MDBInput type="textarea" label="Additional Notes" name="additionalNotes" required className="mb-3" />
 
                                 <MDBBtn type="submit" color="primary">
                                     Publish Buy Request
@@ -120,7 +158,7 @@ function Buy() {
 
                             Once all the necessary information is provided, users can submit their buy request by clicking the "Submit Buy Request" button.
 
-                            The "Submit Your Buy Request" page aims to streamline the process of finding and acquiring desired products for users. It offers a user-friendly interface where users can express their buying needs and connect with sellers through QuantumBuy.
+                            The "Submit Your Buy Request" page aims to streamline the process of finding and acquiring desired products for users. It offersa user-friendly interface where users can express their buying needs and connect with sellers through QuantumBuy.
                         </div>
 
                         <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setShowInfoPopup(false)}></button>
@@ -132,4 +170,3 @@ function Buy() {
 }
 
 export default Buy;
-

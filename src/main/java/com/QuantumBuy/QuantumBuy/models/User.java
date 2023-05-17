@@ -1,4 +1,4 @@
-package com.QuantumBuy.QuantumBuy.Models;
+package com.QuantumBuy.QuantumBuy.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

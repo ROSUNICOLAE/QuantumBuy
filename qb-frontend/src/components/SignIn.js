@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
     MDBBtn,
     MDBModal,
@@ -10,11 +10,23 @@ import {
     MDBModalFooter,
     MDBInput,
 } from 'mdb-react-ui-kit';
+import jwt_decode from "jwt-decode";
 
 function SignIn({ closeModal }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [token, setToken] = useState(localStorage.getItem("token"));
+
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            const decodedToken = jwt_decode(token);
+            console.log(decodedToken);
+            setUsername(decodedToken.sub);
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,6 +35,7 @@ function SignIn({ closeModal }) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json', // Add this line
                 },
                 body: JSON.stringify({
                     username,
@@ -34,6 +47,8 @@ function SignIn({ closeModal }) {
             if (response.ok) {
                 // Sign-in successful
                 // You can handle the success response here
+                localStorage.setItem("token", response.headers.get("Authorization"));
+                setToken(response.headers.get("Authorization"));
                 closeModal();
             } else {
                 // Sign-in failed

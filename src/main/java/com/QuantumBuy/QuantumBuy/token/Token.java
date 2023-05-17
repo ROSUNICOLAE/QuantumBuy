@@ -1,7 +1,7 @@
 package com.QuantumBuy.QuantumBuy.token;
 
 
-import com.QuantumBuy.QuantumBuy.Models.User;
+import com.QuantumBuy.QuantumBuy.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

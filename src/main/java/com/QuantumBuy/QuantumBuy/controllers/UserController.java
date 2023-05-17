@@ -1,6 +1,6 @@
 package com.QuantumBuy.QuantumBuy.controllers;
 
-import com.QuantumBuy.QuantumBuy.Models.User;
+import com.QuantumBuy.QuantumBuy.models.User;
 import com.QuantumBuy.QuantumBuy.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
