@@ -5,7 +5,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,9 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.util.Date;
+
 
 @Component
 public class JwtUtils {
@@ -24,34 +22,33 @@ public class JwtUtils {
     @Value("${quantum.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    @Value("${quantum.app.jwtSecret}")
-    private String jwtSecret;
+    private final String jwtSecret = "472D4B6150645267556B58703273357638792F423F4528482B4D6251655468566D597133743677397A24432646294A404E635266556A586E5A72347537782141";
 
-    private Key jwtSecretKey;
+
 
     @PostConstruct
     public void init() {
-        jwtSecretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
 
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
-        // Create claims for username and role
+        // Create claims for username, email, and role
         Claims claims = Jwts.claims().setSubject(userPrincipal.getUsername());
+        claims.put("email", userPrincipal.getEmail());
         claims.put("role", userPrincipal.getAuthorities().stream().findFirst().get().getAuthority());
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(jwtSecretKey)
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
     public String getUsernameFromJwtToken(String token) {
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(jwtSecretKey)
+                .setSigningKey(jwtSecret)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -62,7 +59,7 @@ public class JwtUtils {
     public boolean validateJwtToken(String authToken) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
-                    .setSigningKey(jwtSecretKey)
+                    .setSigningKey(jwtSecret)
                     .build()
                     .parseClaimsJws(authToken);
 

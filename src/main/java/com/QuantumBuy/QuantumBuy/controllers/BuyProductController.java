@@ -1,6 +1,7 @@
 package com.QuantumBuy.QuantumBuy.controllers;
 
 import com.QuantumBuy.QuantumBuy.models.BuyProduct;
+import com.QuantumBuy.QuantumBuy.models.ERole;
 import com.QuantumBuy.QuantumBuy.models.User;
 import com.QuantumBuy.QuantumBuy.services.BuyProductService;
 import com.QuantumBuy.QuantumBuy.services.UserService;
@@ -29,28 +30,26 @@ public class BuyProductController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<BuyProduct> createBuyProduct(
-            @RequestParam("productName") String productName,
-            @RequestParam("price") double price,
-            @RequestParam("quantity") int quantity,
-            @RequestParam("vendorName") String vendorName,
-            @RequestParam("productDescription") String productDescription,
-            @RequestParam("name") String name,
-            @RequestParam("email") String email,
-            @RequestParam("image") MultipartFile image,
-            @RequestParam("documentation") MultipartFile documentation,
-            @RequestParam("additionalNotes") String additionalNotes,
-            Authentication authentication
-    ) {
-        String username = authentication.getName(); // Fetch the username from the authentication context
-        String userRole = authentication.getAuthorities().stream().findFirst().get().getAuthority(); // Fetch the user role from the authentication context
-
-        // Verify the user role
-        if (!"BUYER".equals(userRole)) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    @PreAuthorize("hasRole('BUYER')")
+    public ResponseEntity<BuyProduct> createBuyProduct(@RequestParam("buyer") String buyer,
+                                                       @RequestParam("productName") String productName,
+                                                       @RequestParam("price") double price,
+                                                       @RequestParam("quantity") int quantity,
+                                                       @RequestParam("vendorName") String vendorName,
+                                                       @RequestParam("productDescription") String productDescription,
+                                                       @RequestParam("name") String name,
+                                                       @RequestParam("email") String email,
+                                                       @RequestParam("image") MultipartFile image,
+                                                       @RequestParam("documentation") MultipartFile documentation,
+                                                       @RequestParam("additionalNotes") String additionalNotes,
+                                                       Authentication authentication) {
+        // Verify if the buyer from the request matches the authenticated user
+        if (!buyer.equals(authentication.getName())) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         try {
+            // Process the buy request
             BuyProduct createdBuyProduct = buyProductService.createBuyProduct(
                     productName, price, quantity, vendorName, productDescription, name, email, image, documentation, additionalNotes
             );
@@ -60,7 +59,9 @@ public class BuyProductController {
         }
     }
 
+
     @GetMapping
+    @PreAuthorize("hasRole('BUYER') or hasRole('SELLER')")
     public ResponseEntity<List<BuyProduct>> getAllBuyProducts() {
         List<BuyProduct> buyProducts = buyProductService.getAllBuyProducts();
         return new ResponseEntity<>(buyProducts, HttpStatus.OK);

@@ -28,7 +28,7 @@ public class CorsConfig {
         }
 
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
+        config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "x-role"));
         config.setExposedHeaders(Collections.singletonList("Authorization"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);

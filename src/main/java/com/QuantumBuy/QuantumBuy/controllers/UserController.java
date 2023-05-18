@@ -16,7 +16,7 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/all")
-    public List<User> getStudentsAPI() {
+    public List<User> getUsersAPI() {
         System.out.println(userService.getUsers());
         return userService.getUsers();
     }

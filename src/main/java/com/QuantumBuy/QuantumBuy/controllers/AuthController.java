@@ -1,7 +1,10 @@
 package com.QuantumBuy.QuantumBuy.controllers;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -26,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -97,16 +101,20 @@ public class AuthController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        User user = userRepository.findById(userDetails.getId()).orElse(null);
-
-        if (user == null) {
-            ApiResponse response = new ApiResponse("User not found");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    public ResponseEntity<Map<String, String>> getCurrentUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        User users = userRepository.findById(userDetails.getId()).orElse(null);
-        System.out.println("Retrieved user: " + users); // Add this log statement
 
-        return ResponseEntity.ok(user);
+        String email = userDetails.getEmail();
+
+        if (email == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        Map<String, String> response = new HashMap<>();
+        response.put("email", email);
+
+        return ResponseEntity.ok(response);
     }
 }

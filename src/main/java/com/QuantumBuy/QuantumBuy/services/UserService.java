@@ -1,5 +1,6 @@
 package com.QuantumBuy.QuantumBuy.services;
 
+import com.QuantumBuy.QuantumBuy.models.ERole;
 import com.QuantumBuy.QuantumBuy.models.User;
 import com.QuantumBuy.QuantumBuy.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,8 @@ public class UserService {
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            if (user.getRole().equals(role)) {
+            ERole userRole = ERole.fromString(role);
+            if (user.getRole().equals(userRole)) {
                 return userOptional; // User exists with the correct role
             }
         }
