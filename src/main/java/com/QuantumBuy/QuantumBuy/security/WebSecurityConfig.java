@@ -65,6 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/buyproducts").permitAll() // Allow access to /api/buyproducts without authentication
+                .antMatchers("/api/sellproducts").permitAll() // Allow access to /api/buyproducts without authentication
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

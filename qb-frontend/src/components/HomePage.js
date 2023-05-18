@@ -7,14 +7,27 @@ import SlimSidebar from "./SlimSidebar";
 
 function HomePage() {
     const [buyProducts, setBuyProducts] = useState([]);
+    const [sellProducts, setSellProducts] = useState([]);
 
     useEffect(() => {
         const fetchBuyProducts = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/buyproducts");
-                if (response.ok) {
-                    const data = await response.json();
-                    setBuyProducts(data);
+                const buyResponse = await fetch("http://localhost:8080/api/buyproducts");
+                if (buyResponse.ok) {
+                    const buyData = await buyResponse.json();
+                    setBuyProducts(buyData);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        };
+
+        const fetchSellProducts = async () => {
+            try {
+                const sellResponse = await fetch("http://localhost:8080/api/sellproducts");
+                if (sellResponse.ok) {
+                    const sellData = await sellResponse.json();
+                    setSellProducts(sellData);
                 }
             } catch (error) {
                 console.error("Error:", error);
@@ -22,6 +35,7 @@ function HomePage() {
         };
 
         fetchBuyProducts();
+        fetchSellProducts();
     }, []);
 
     return (
@@ -45,7 +59,7 @@ function HomePage() {
                                         <thead>
                                         <tr>
                                             <th>Product Name</th>
-                                            <th>Price </th>
+                                            <th>Price</th>
                                             <th>Quantity</th>
                                             {/* Add more table headers if needed */}
                                         </tr>
@@ -71,8 +85,28 @@ function HomePage() {
                                 <h5 className="card-title">Sell Polls</h5>
                             </div>
                             <div className="card-body">
-                                {/* Add your sell products component */}
-                                {/* Example: <SellProducts /> */}
+                                <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+                                    <table className="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Product Name</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            {/* Add more table headers if needed */}
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {sellProducts.map((product) => (
+                                            <tr key={product.id}>
+                                                <td>{product.productName}</td>
+                                                <td>{product.price}</td>
+                                                <td>{product.quantity}</td>
+                                                {/* Add more table cells with data if needed */}
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
