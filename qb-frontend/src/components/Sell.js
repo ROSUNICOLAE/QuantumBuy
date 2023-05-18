@@ -1,112 +1,132 @@
-import React, { useState } from 'react';
-import { MDBBtn, MDBCard, MDBCardBody, MDBCardText, MDBInput } from 'mdb-react-ui-kit';
+import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn, MDBInput } from 'mdb-react-ui-kit';
+import jwt_decode from 'jwt-decode';
 
-function Sell() {
+function Buy() {
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedDocumentation, setSelectedDocumentation] = useState(null);
     const [fileErrorMessage, setFileErrorMessage] = useState('');
     const [showInfoPopup, setShowInfoPopup] = useState(false);
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [isBuyer, setIsBuyer] = useState(false);
 
     const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        // Validate file format
-        const allowedFormats = ['image/jpeg', 'image/png', 'image/gif'];
-        if (file && !allowedFormats.includes(file.type)) {
-            setFileErrorMessage('Please choose a valid image format (JPEG, PNG, GIF).');
-        } else {
-            setFileErrorMessage('');
-            setSelectedImage(file);
-        }
+        // Handle image change logic
     };
 
     const handleDocumentationChange = (e) => {
-        const file = e.target.files[0];
-        // Validate file format
-        if (file && file.type !== 'application/pdf') {
-            setFileErrorMessage('Please choose a valid PDF file.');
-        } else {
-            setFileErrorMessage('');
-            setSelectedDocumentation(file);
-        }
+        // Handle documentation change logic
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        // You can access form input values using the event.target elements
+        // Handle form submission logic
+    };
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        console.log('Token:', token); // Check the token value
+        if (token) {
+            const decodedToken = jwt_decode(token);
+            console.log('Decoded token:', decodedToken); // Check the decoded token object
+            const role = decodedToken.role;
+            console.log('User role:', role);
+            setUsername(decodedToken.sub);
+            setEmail(decodedToken.email);
+            setIsBuyer(role === 'BUYER');
+        } else {
+            setUsername('');
+            setEmail('');
+            setIsBuyer(false);
+        }
+    }, []);
+
+    const renderBuyForm = () => {
+        console.log('isBuyer:', isBuyer); // Add this line
+        if (!isBuyer) {
+            return (
+                <div className="alert alert-danger" role="alert">
+                    You do not have the required role to submit a buy request.
+                </div>
+            );
+        }
+
+        return (
+            <form onSubmit={handleSubmit}>
+                <div style={{ maxHeight: '700px', overflowY: 'scroll' }}>
+                    <MDBCard>
+                        <MDBCardBody>
+                            <MDBCardText>Product Information</MDBCardText>
+                            <MDBInput type="text" label="Product Name" required className="mb-3" />
+                            <MDBInput type="number" label="Price Range" required className="mb-3" />
+                            <MDBInput type="number" label="Quantity" required className="mb-3" />
+                            <MDBInput type="text" label="Vendor Name" required className="mb-3" />
+                            <MDBInput type="textarea" label="Product Description" required className="mb-3" />
+
+                            <MDBCardText>Contact Information</MDBCardText>
+                            <MDBInput type="text" label="Name" required className="mb-3" />
+                            <MDBInput type="email" label="Email" required className="mb-3" />
+
+                            <MDBCardText>Upload Image</MDBCardText>
+                            <div className="input-group mb-3">
+                                <input type="file" className="form-control" required onChange={handleImageChange} />
+                                <label className="input-group-text" htmlFor="inputGroupFile01">
+                                    {selectedImage ? selectedImage.name : 'Choose file'}
+                                </label>
+                            </div>
+                            {fileErrorMessage && (
+                                <div className="alert alert-danger" role="alert">
+                                    {fileErrorMessage}
+                                </div>
+                            )}
+
+                            <MDBCardText>Upload Technical Documentation (PDF)</MDBCardText>
+                            <div className="input-group mb-3" style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                                <input
+                                    type="file"
+                                    className="form-control"
+                                    required
+                                    accept=".pdf"
+                                    onChange={handleDocumentationChange}
+                                />
+                                <label className="input-group-text" htmlFor="inputGroupFile02">
+                                    {selectedDocumentation ? selectedDocumentation.name : 'Choose file'}
+                                </label>
+                            </div>
+                            {fileErrorMessage && (
+                                <div className="alert alert-danger" role="alert">
+                                    {fileErrorMessage}
+                                </div>
+                            )}
+
+                            <MDBCardText>Additional Information</MDBCardText>
+                            <MDBInput type="textarea" label="Additional Notes" required className="mb-3" />
+
+                            <MDBBtn type="submit" color="primary">
+                                Submit Buy Request
+                            </MDBBtn>
+                        </MDBCardBody>
+                    </MDBCard>
+                </div>
+            </form>
+        );
     };
 
     return (
         <>
             <Navbar />
             <div className="container">
-                <h1>Quantum Sell</h1>
+                <h1>Quantum Buy</h1>
                 <p>
-                    Welcome to the Sell Request Form. Use this form to submit your sell request for a product. Please provide
-                    the necessary information below to initiate the process.
+                    Welcome to the Buy Request Form. Use this form to submit your buy request for a product. Please provide the necessary information below to initiate the process.
                 </p>
                 <button className="btn btn-primary mb-3" onClick={() => setShowInfoPopup(true)}>
                     Show Info
                 </button>
-                <form onSubmit={handleSubmit}>
-                    <div style={{ maxHeight: '700px', overflowY: 'scroll' }}>
-                        <MDBCard>
-                            <MDBCardBody>
-                                <MDBCardText>Product Information</MDBCardText>
-                                <MDBInput type="text" label="Product Name" required className="mb-3" />
-                                <MDBInput type="number" label="Price" required className="mb-3" />
-                                <MDBInput type="number" label="Quantity" required className="mb-3" />
-                                <MDBInput type="text" label="Vendor Name" required className="mb-3" />
-                                <MDBInput type="textarea" label="Product Description" required className="mb-3" />
-
-                                <MDBCardText>Contact Information</MDBCardText>
-                                <MDBInput type="text" label="Name" required className="mb-3" />
-                                <MDBInput type="email" label="Email" required className="mb-3" />
-
-                                <MDBCardText>Upload Image</MDBCardText>
-                                <div className="input-group mb-3">
-                                    <input type="file" className="form-control" required onChange={handleImageChange} />
-                                    <label className="input-group-text" htmlFor="inputGroupFile01">
-                                        {selectedImage ? selectedImage.name : 'Choose file'}
-                                    </label>
-                                </div>
-                                {fileErrorMessage && (
-                                    <div className="alert alert-danger" role="alert">
-                                        {fileErrorMessage}
-                                    </div>
-                                )}
-
-                                <MDBCardText>Upload Technical Documentation (PDF)</MDBCardText>
-                                <div className="input-group mb-3" style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                                    <input
-                                        type="file"
-                                        className="form-control"
-                                        required
-                                        accept=".pdf"
-                                        onChange={handleDocumentationChange}
-                                    />
-                                    <label className="input-group-text" htmlFor="inputGroupFile02">
-                                        {selectedDocumentation ? selectedDocumentation.name : 'Choose file'}
-                                    </label>
-                                </div>
-                                {fileErrorMessage && (
-                                    <div className="alert alert-danger" role="alert">
-                                        {fileErrorMessage}
-                                    </div>
-                                )}
-
-                                <MDBCardText>Additional Information</MDBCardText>
-                                <MDBInput type="textarea" label="Additional Notes" required className="mb-3" />
-
-                                <MDBBtn type="submit" color="primary">
-                                    Publish Sell Request
-                                </MDBBtn>
-                            </MDBCardBody>
-                        </MDBCard>
-                    </div>
-                </form>
+                {renderBuyForm()}
             </div>
             <Footer />
 
@@ -115,29 +135,35 @@ function Sell() {
                 <div className="position-fixed top-0 start-50 translate-middle-x mt-3">
                     <div className="alert alert-info alert-dismissible fade show" role="alert">
                         <div className="info-popup-text" style={{ fontSize: '2rem', maxHeight: '400px', overflowY: 'auto' }}>
-                            The "Quantum Sell" page allows vendors to sell their products through QuantumBuy. It provides a platform where vendors can showcase their products and reach potential buyers. To start selling, vendors need to complete the form below with the required information.
-
-                            On this page, vendors are presented with a form to enter details about their product. They should provide information such as the product name, price, quantity, and their own vendor name. Additionally, vendors can provide a description of the product, highlighting its features and benefits to attract buyers.
-
-                            To facilitate communication and transactions, vendors are required to provide their contact information, including their name and email address.
-
-                            Vendors can upload an image of the product, which will be displayed to potential buyers. This visual representation helps capture the attention of buyers and provides them with a better understanding of the product being sold.
-
-                            If there are any technical specifications or documentation related to the product, vendors can upload a PDF file containing that information. This allows interested buyers to access detailed documentation before making a purchasing decision.
-
-                            Lastly, vendors can include any additional notes or relevant information in the designated text area.
-
-                            Once all the necessary information is provided, vendors can submit their sell request by clicking the "Publish Sell Request" button.
-
-                            The "Sell Your Product" page is designed to make the selling process straightforward and efficient for vendors. It provides a user-friendly interface where vendors can showcase their products and connect with potential buyers through QuantumBuy.
+                            The "Quantum Buy" page allows users to submit buy requests for products through QuantumBuy. It provides a platform where users can specify their desired product and relevant information to initiate the buying process.
+                            <br />
+                            <br />
+                            On this page, users are presented with a form to enter details about their buy request. They should provide information such as the product name, price range, quantity, vendor name, and a description of the product.
+                            <br />
+                            <br />
+                            To facilitate communication and ensure accurate matching, users are required to provide their contact information, including their name and email address.
+                            <br />
+                            <br />
+                            Users can also upload an image of the desired product to give sellers a visual representation.
+                            <br />
+                            <br />
+                            If there are any technical specifications or documentation related to the desired product, users can upload a PDF file containing that information.
+                            <br />
+                            <br />
+                            Lastly, users can include any additional notes or relevant information in the designated text area.
+                            <br />
+                            <br />
+                            Once all the necessary information is provided, users can submit their buy request by clicking the "Submit Buy Request" button.
+                            <br />
+                            <br />
+                            The "Quantum Buy" page aims to streamline the process of finding and acquiring desired products for users. It offers a user-friendly interface where users can express their buying needs and connect with sellers through QuantumBuy.
                         </div>
                         <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setShowInfoPopup(false)}></button>
                     </div>
                 </div>
             )}
-
         </>
     );
 }
 
-export default Sell;
+export default Buy;

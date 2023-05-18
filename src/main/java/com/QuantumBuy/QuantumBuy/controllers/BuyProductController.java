@@ -30,38 +30,32 @@ public class BuyProductController {
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasRole('BUYER')")
-    public ResponseEntity<BuyProduct> createBuyProduct(@RequestParam("buyer") String buyer,
-                                                       @RequestParam("productName") String productName,
-                                                       @RequestParam("price") double price,
-                                                       @RequestParam("quantity") int quantity,
-                                                       @RequestParam("vendorName") String vendorName,
-                                                       @RequestParam("productDescription") String productDescription,
-                                                       @RequestParam("name") String name,
-                                                       @RequestParam("email") String email,
-                                                       @RequestParam("image") MultipartFile image,
-                                                       @RequestParam("documentation") MultipartFile documentation,
-                                                       @RequestParam("additionalNotes") String additionalNotes,
-                                                       Authentication authentication) {
-        // Verify if the buyer from the request matches the authenticated user
-        if (!buyer.equals(authentication.getName())) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
+    public ResponseEntity<BuyProduct> createBuyProduct(
+            @RequestParam("productName") String productName,
+            @RequestParam("priceRange") double priceRange,
+            @RequestParam("quantity") int quantity,
+            @RequestParam("vendorName") String vendorName,
+            @RequestParam("productDescription") String productDescription,
+            @RequestParam("name") String name,
+            @RequestParam("email") String email,
+            @RequestParam(value = "productImage", required = false) Optional<MultipartFile> productImage,
+            @RequestParam(value = "documentation", required = false) Optional<MultipartFile> documentation,
+            @RequestParam("additionalNotes") String additionalNotes
+    ) {
         try {
             // Process the buy request
             BuyProduct createdBuyProduct = buyProductService.createBuyProduct(
-                    productName, price, quantity, vendorName, productDescription, name, email, image, documentation, additionalNotes
+                    productName, priceRange, quantity, vendorName, productDescription, name, email,
+                    productImage.orElse(null), documentation.orElse(null), additionalNotes
             );
+
             return new ResponseEntity<>(createdBuyProduct, HttpStatus.CREATED);
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-
     @GetMapping
-    @PreAuthorize("hasRole('BUYER') or hasRole('SELLER')")
     public ResponseEntity<List<BuyProduct>> getAllBuyProducts() {
         List<BuyProduct> buyProducts = buyProductService.getAllBuyProducts();
         return new ResponseEntity<>(buyProducts, HttpStatus.OK);
