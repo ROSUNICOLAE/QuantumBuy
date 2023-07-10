@@ -20,7 +20,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(1rem + 2vmin); /* Updated font-size to be relative */
   color: white;
 }
 
@@ -41,27 +41,27 @@
 .about-us-page {
   background-color: #0b0c10;
   color: #fff;
-  padding: 100px 0;
+  padding: 5rem 0; /* Updated padding to be relative */
 }
 
 .about-us-page h1 {
-  font-size: 4rem;
+  font-size: 3rem; /* Updated font-size to be relative */
   font-weight: 700;
-  margin-bottom: 40px;
+  margin-bottom: 2rem; /* Updated margin to be relative */
   text-align: center;
 }
 
 .about-us-page h2 {
-  font-size: 2.5rem;
+  font-size: 2rem; /* Updated font-size to be relative */
   font-weight: 500;
-  margin-top: 80px;
+  margin-top: 4rem; /* Updated margin to be relative */
 }
 
 .about-us-page p {
-  font-size: 1.5rem;
+  font-size: 1.5rem; /* Updated font-size to be relative */
   font-weight: 400;
-  line-height: 2;
-  margin-top: 40px;
+  line-height: 1.5; /* Updated line-height to be relative */
+  margin-top: 2rem; /* Updated margin to be relative */
 }
 
 .about-us-page ul.team-members {
@@ -69,73 +69,94 @@
   flex-wrap: wrap;
   justify-content: center;
   list-style: none;
-  margin-top: 80px;
+  margin-top: 4rem; /* Updated margin to be relative */
 }
 
 .about-us-page ul.team-members li {
   background-color: #1f2833;
   border-radius: 10px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  margin: 20px;
-  padding: 20px;
+  margin: 2rem; /* Updated margin to be relative */
+  padding: 2rem; /* Updated padding to be relative */
   text-align: center;
-  width: 300px;
+  width: 20rem; /* Updated width to be relative */
 }
 
 .about-us-page ul.team-members li img {
   border-radius: 50%;
-  height: 150px;
-  margin-bottom: 20px;
-  width: 150px;
+  height: 10rem; /* Updated height to be relative */
+  margin-bottom: 2rem; /* Updated margin to be relative */
+  width: 10rem; /* Updated width to be relative */
 }
 
 .about-us-page ul.team-members li h3.name {
-  font-size: 2rem;
+  font-size: 2rem; /* Updated font-size to be relative */
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 1rem; /* Updated margin to be relative */
 }
 
 .about-us-page ul.team-members li p.position {
-  font-size: 1.5rem;
+  font-size: 1.5rem; /* Updated font-size to be relative */
   font-weight: 500;
-  margin-bottom: 20px;
+  margin-bottom: 2rem; /* Updated margin to be relative */
+}
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.scrollable-content {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.table-wrapper {
+  max-height: unset;
+  overflow-y: unset;
+}
+
+.table-container {
+  max-height: unset;
+  overflow-y: unset;
 }
 
 @media (max-width: 768px) {
   .about-us-page h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
+    font-size: 2.5rem; /* Updated font-size to be relative */
+    margin-bottom: 1.5rem; /* Updated margin to be relative */
   }
 
   .about-us-page h2 {
-    font-size: 2rem;
-    margin-top: 60px;
+    font-size: 1.8rem; /* Updated font-size to be relative */
+    margin-top: 3rem; /* Updated margin to be relative */
   }
 
   .about-us-page p {
-    font-size: 1.2rem;
-    margin-top: 20px;
+    font-size: 1.2rem; /* Updated font-size to be relative */
+    margin-top: 1.5rem; /* Updated margin to be relative */
   }
 
   .about-us-page ul.team-members li {
-    margin: 10px;
-    padding: 10px;
-    width: 200px;
+    margin: 1rem; /* Updated margin to be relative */
+    padding: 1rem; /* Updated padding to be relative */
+    width: 18rem; /* Updated width to be relative */
   }
 
   .about-us-page ul.team-members li img {
-    height: 100px;
-    margin-bottom: 10px;
-    width: 100px;
+    height: 8rem; /* Updated height to be relative */
+    margin-bottom: 1rem; /* Updated margin to be relative */
+    width: 8rem; /* Updated width to be relative */
   }
 
   .about-us-page ul.team-members li h3.name {
-    font-size: 1.5rem;
-    margin-bottom: 5px;
+    font-size: 1.8rem; /* Updated font-size to be relative */
+    margin-bottom: 0.5rem; /* Updated margin to be relative */
   }
 
   .about-us-page ul.team-members li p.position {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+    font-size: 1.2rem; /* Updated font-size to be relative */
+    margin-bottom: 1rem; /* Updated margin to be relative */
   }
 }

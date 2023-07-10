@@ -39,73 +39,79 @@ function HomePage() {
     }, []);
 
     return (
-        <div>
+        <div className="home-page">
             <Navbar />
             <Header />
-            <div className="container">
-                <div className="row">
-                    <div className="col">
-                        <h1>Buy/Sell Polls</h1>
-                        <p>Some content here...</p>
+            <div className="scrollable-content">
+                <div className="container">
+                    <div className="row">
+                        <div className="col">
+                            <h1>Buy/Sell Polls</h1>
+                            <p>Some content here...</p>
+                        </div>
                     </div>
-                </div>
-                <div className="row justify-content-center">
-                    <div className="col-md-6">
-                        <MDBCard>
-                            <MDBCardBody>
-                                <MDBCardTitle>Buy Polls</MDBCardTitle>
-                                <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-                                    <table className="table">
-                                        <thead>
-                                        <tr>
-                                            <th>Product Name</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            {/* Add more table headers if needed */}
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {buyProducts.map((product) => (
-                                            <tr key={product.id}>
-                                                <td>{product.productName}</td>
-                                                <td>{product.price}</td>
-                                                <td>{product.quantity}</td>
-                                                {/* Add more table cells with data if needed */}
-                                            </tr>
-                                        ))}
-                                        </tbody>
-                                    </table>
+                    <div className="row justify-content-center">
+                        <div className="col-md-6">
+                            <MDBCard>
+                                <MDBCardBody>
+                                    <MDBCardTitle>Buy Polls</MDBCardTitle>
+                                    <div className="table-wrapper">
+                                        <div className="table-container">
+                                            <table className="table">
+                                                <thead>
+                                                <tr>
+                                                    <th>Product Name</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    {/* Add more table headers if needed */}
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {buyProducts.slice(0, 3).map((product) => (
+                                                    <tr key={product.id}>
+                                                        <td>{product.productName}</td>
+                                                        <td>{product.price}</td>
+                                                        <td>{product.quantity}</td>
+                                                        {/* Add more table cells with data if needed */}
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </MDBCardBody>
+                            </MDBCard>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="card mb-3">
+                                <div className="card-header">
+                                    <h5 className="card-title">Sell Polls</h5>
                                 </div>
-                            </MDBCardBody>
-                        </MDBCard>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="card mb-3">
-                            <div className="card-header">
-                                <h5 className="card-title">Sell Polls</h5>
-                            </div>
-                            <div className="card-body">
-                                <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-                                    <table className="table">
-                                        <thead>
-                                        <tr>
-                                            <th>Product Name</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            {/* Add more table headers if needed */}
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {sellProducts.map((product) => (
-                                            <tr key={product.id}>
-                                                <td>{product.productName}</td>
-                                                <td>{product.price}</td>
-                                                <td>{product.quantity}</td>
-                                                {/* Add more table cells with data if needed */}
-                                            </tr>
-                                        ))}
-                                        </tbody>
-                                    </table>
+                                <div className="card-body">
+                                    <div className="table-wrapper">
+                                        <div className="table-container">
+                                            <table className="table">
+                                                <thead>
+                                                <tr>
+                                                    <th>Product Name</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    {/* Add more table headers if needed */}
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {sellProducts.slice(0, 3).map((product) => (
+                                                    <tr key={product.id}>
+                                                        <td>{product.productName}</td>
+                                                        <td>{product.price}</td>
+                                                        <td>{product.quantity}</td>
+                                                        {/* Add more table cells with data if needed */}
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
